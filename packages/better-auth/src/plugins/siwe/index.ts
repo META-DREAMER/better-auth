@@ -185,6 +185,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 							}
 
 							return ctx.json({
+								token: currentSession.session.token,
 								success: true,
 								user: {
 									id: sessionUser.id,
@@ -212,6 +213,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 						});
 
 						return ctx.json({
+							token: currentSession.session.token,
 							success: true,
 							user: {
 								id: sessionUser.id,
