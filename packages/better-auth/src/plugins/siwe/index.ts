@@ -8,6 +8,7 @@ import type { InferOptionSchema, User } from "../../types";
 import { toChecksumAddress } from "../../utils/hashing";
 import { isAPIError } from "../../utils/is-api-error";
 import { getOrigin } from "../../utils/url";
+import { SIWE_ERROR_CODES } from "./error-codes";
 import { schema } from "./schema";
 import type {
 	ENSLookupArgs,
@@ -53,6 +54,9 @@ const getSiweNonceBodySchema = z.object({
 	chainId: chainIdSchema,
 });
 
+const createWalletAccountId = (walletAddress: string, chainId: number) =>
+	`${walletAddress}:${chainId}`;
+
 export const siwe = (options: SIWEPluginOptions) =>
 	({
 		id: "siwe",
@@ -70,7 +74,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 					const nonce = await options.getNonce();
 
 					await ctx.context.internalAdapter.createVerificationValue({
-						identifier: `siwe:${walletAddress}:${chainId}`,
+						identifier: `siwe:${createWalletAccountId(walletAddress, chainId)}`,
 						value: nonce,
 						expiresAt: new Date(Date.now() + 15 * 60 * 1000),
 					});
@@ -112,14 +116,13 @@ export const siwe = (options: SIWEPluginOptions) =>
 					// Verify nonce exists and is not expired
 					const verification =
 						await ctx.context.internalAdapter.findVerificationValue(
-							`siwe:${walletAddress}:${chainId}`,
+							`siwe:${createWalletAccountId(walletAddress, chainId)}`,
 						);
 
 					if (!verification || new Date() > verification.expiresAt) {
 						throw new APIError("UNAUTHORIZED", {
-							message: "Unauthorized: Invalid or expired nonce",
+							message: SIWE_ERROR_CODES.INVALID_OR_EXPIRED_NONCE,
 							status: 401,
-							code: "UNAUTHORIZED_INVALID_OR_EXPIRED_NONCE",
 						});
 					}
 
@@ -143,7 +146,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 
 					if (!verified) {
 						throw new APIError("UNAUTHORIZED", {
-							message: "Unauthorized: Invalid SIWE signature",
+							message: SIWE_ERROR_CODES.INVALID_SIWE_SIGNATURE,
 							status: 401,
 						});
 					}
@@ -154,7 +157,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 					);
 
 					const existingWallet: WalletAddress | null =
-						await ctx.context.adapter.findOne({
+						await ctx.context.adapter.findOne<WalletAddress>({
 							model: "walletAddress",
 							where: [
 								{ field: "address", operator: "eq", value: walletAddress },
@@ -179,8 +182,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 						if (existingWallet) {
 							if (existingWallet.userId !== sessionUser.id) {
 								throw new APIError("BAD_REQUEST", {
-									message: "Wallet already linked to another account",
-									code: "WALLET_ALREADY_LINKED",
+									message: SIWE_ERROR_CODES.WALLET_ALREADY_LINKED,
 								});
 							}
 
@@ -209,7 +211,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 						await ctx.context.internalAdapter.linkAccount({
 							userId: sessionUser.id,
 							providerId: "siwe",
-							accountId: `${walletAddress}:${chainId}`,
+							accountId: createWalletAccountId(walletAddress, chainId),
 						});
 
 						return ctx.json({
@@ -226,7 +228,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 					let user: User | null = null;
 
 					if (existingWallet) {
-						user = await ctx.context.adapter.findOne({
+						user = await ctx.context.adapter.findOne<User>({
 							model: "user",
 							where: [
 								{ field: "id", operator: "eq", value: existingWallet.userId },
@@ -235,7 +237,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 					} else {
 						// Check if this address exists on any other chain (same wallet, different network)
 						const walletOnOtherChain: WalletAddress | null =
-							await ctx.context.adapter.findOne({
+							await ctx.context.adapter.findOne<WalletAddress>({
 								model: "walletAddress",
 								where: [
 									{ field: "address", operator: "eq", value: walletAddress },
@@ -243,7 +245,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 							});
 
 						if (walletOnOtherChain) {
-							user = await ctx.context.adapter.findOne({
+							user = await ctx.context.adapter.findOne<User>({
 								model: "user",
 								where: [
 									{
@@ -287,9 +289,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 						await ctx.context.internalAdapter.createAccount({
 							userId: user.id,
 							providerId: "siwe",
-							accountId: `${walletAddress}:${chainId}`,
-							createdAt: new Date(),
-							updatedAt: new Date(),
+							accountId: createWalletAccountId(walletAddress, chainId),
 						});
 					} else if (!existingWallet) {
 						// User exists but this specific address/chain combo doesn't - add it
@@ -307,9 +307,7 @@ export const siwe = (options: SIWEPluginOptions) =>
 						await ctx.context.internalAdapter.createAccount({
 							userId: user.id,
 							providerId: "siwe",
-							accountId: `${walletAddress}:${chainId}`,
-							createdAt: new Date(),
-							updatedAt: new Date(),
+							accountId: createWalletAccountId(walletAddress, chainId),
 						});
 					}
 
