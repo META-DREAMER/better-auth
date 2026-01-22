@@ -1,4 +1,4 @@
-import { defineErrorCodes } from "@better-auth/core/utils";
+import { defineErrorCodes } from "@better-auth/core/utils/error-codes";
 
 export const SIWE_ERROR_CODES = defineErrorCodes({
 	INVALID_OR_EXPIRED_NONCE: "Invalid or expired nonce",
