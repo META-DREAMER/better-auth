@@ -1,13 +1,13 @@
 {
-  "name": "@better-auth-test/fixtures-vite",
-  "private": true,
-  "scripts": {
-    "build": "vite build"
-  },
-  "dependencies": {
-    "better-auth": "workspace:*"
-  },
-  "devDependencies": {
-    "vite": "^7.3.1"
-  }
+	"name": "@better-auth-test/fixtures-vite",
+	"private": true,
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"@hammadj/better-auth": "workspace:*"
+	},
+	"devDependencies": {
+		"vite": "^7.3.1"
+	}
 }

@@ -1,14 +1,14 @@
 {
-  "name": "@better-auth-test/smoke",
-  "type": "module",
-  "devDependencies": {
-    "@better-auth/core": "workspace:*",
-    "@better-auth/redis-storage": "workspace:*",
-    "better-auth": "workspace:*",
-    "ioredis": "^5.9.2",
-    "msw": "^2.12.4"
-  },
-  "scripts": {
-    "e2e:smoke": "node --test ./test/*.spec.ts"
-  }
+	"name": "@better-auth-test/smoke",
+	"type": "module",
+	"devDependencies": {
+		"@hammadj/better-auth-core": "workspace:*",
+		"@hammadj/better-auth-redis-storage": "workspace:*",
+		"@hammadj/better-auth": "workspace:*",
+		"ioredis": "^5.9.2",
+		"msw": "^2.12.4"
+	},
+	"scripts": {
+		"e2e:smoke": "node --test ./test/*.spec.ts"
+	}
 }

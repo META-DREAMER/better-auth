@@ -1,15 +1,15 @@
 {
-  "name": "@better-auth-test/mongo-adapter",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "e2e:integration": "vitest run"
-  },
-  "dependencies": {
-    "@better-auth/core": "workspace:*",
-    "@better-auth/mongo-adapter": "workspace:*",
-    "@better-auth/test-utils": "workspace:*",
-    "@prisma/client": "^5.22.0",
-    "better-auth": "workspace:*"
-  }
+	"name": "@better-auth-test/mongo-adapter",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"e2e:integration": "vitest run"
+	},
+	"dependencies": {
+		"@hammadj/better-auth-core": "workspace:*",
+		"@hammadj/better-auth-mongo-adapter": "workspace:*",
+		"@hammadj/better-auth-test-utils": "workspace:*",
+		"@prisma/client": "^5.22.0",
+		"@hammadj/better-auth": "workspace:*"
+	}
 }

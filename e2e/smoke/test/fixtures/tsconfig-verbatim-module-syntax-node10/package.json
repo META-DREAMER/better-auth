@@ -1,12 +1,12 @@
 {
-  "name": "@better-auth-test/fixtures-tsconfig-verbatim-module-syntax-node10",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "typecheck": "tsc --project tsconfig.json"
-  },
-  "dependencies": {
-    "@better-auth/expo": "workspace:*",
-    "better-auth": "workspace:*"
-  }
+	"name": "@better-auth-test/fixtures-tsconfig-verbatim-module-syntax-node10",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"typecheck": "tsc --project tsconfig.json"
+	},
+	"dependencies": {
+		"@hammadj/better-auth-expo": "workspace:*",
+		"@hammadj/better-auth": "workspace:*"
+	}
 }

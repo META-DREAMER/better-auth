@@ -1,16 +1,16 @@
 {
-  "name": "@better-auth-test/fixtures-tsconfig-declaration",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "typecheck": "tsc --project tsconfig.json"
-  },
-  "dependencies": {
-    "@better-auth/oauth-provider": "workspace:*",
-    "@better-auth/passkey": "workspace:*",
-    "@better-auth/sso": "workspace:*",
-    "@better-auth/stripe": "workspace:*",
-    "better-auth": "workspace:*",
-    "stripe": "^20.2.0"
-  }
+	"name": "@better-auth-test/fixtures-tsconfig-declaration",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"typecheck": "tsc --project tsconfig.json"
+	},
+	"dependencies": {
+		"@hammadj/better-auth-oauth-provider": "workspace:*",
+		"@hammadj/better-auth-passkey": "workspace:*",
+		"@hammadj/better-auth-sso": "workspace:*",
+		"@hammadj/better-auth-stripe": "workspace:*",
+		"@hammadj/better-auth": "workspace:*",
+		"stripe": "^20.2.0"
+	}
 }

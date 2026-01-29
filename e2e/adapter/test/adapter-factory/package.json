@@ -1,13 +1,13 @@
 {
-  "name": "@better-auth-test/adapter-factory",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "e2e:integration": "vitest run"
-  },
-  "devDependencies": {
-    "@better-auth/core": "workspace:*",
-    "@better-auth/test-utils": "workspace:*",
-    "better-auth": "workspace:*"
-  }
+	"name": "@better-auth-test/adapter-factory",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"e2e:integration": "vitest run"
+	},
+	"devDependencies": {
+		"@hammadj/better-auth-core": "workspace:*",
+		"@hammadj/better-auth-test-utils": "workspace:*",
+		"@hammadj/better-auth": "workspace:*"
+	}
 }
